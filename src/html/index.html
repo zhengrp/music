@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>MusicPlalyer</title>
+    <link rel="stylesheet" href="../css/index.css">
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="song-img">
+            <div class="img-wrapper" data-deg=0>
+                <img src="" alt="">
+            </div>
+        </div>
+        <!-- 歌曲信息 动态渲染 -->
+        <div class="song-info">
+            <div class="song-name">丑八怪</div>
+            <div class="singer-name">薛之谦</div>
+            <div class="album-name">意外</div>
+        </div>
+        <!-- 进度条 -->
+        <div class="pro">
+            <!-- 当前播放时间 -->
+            <div class="cur-time">00:00</div>
+            <!-- 进度条的线 -->
+            <div class="pro-wrapper">
+                <!-- 总线 -->
+                <div class="pro-bottom"></div>
+                <!-- 走过的线和圆点 -->
+                <div class="pro-top">
+                    <div class="slider-pointer"></div>
+                </div>
+            </div>
+            <!-- 总时间 -->
+            <div class="all-time">0 4:00</div>
+        </div>
+        <!-- 控制模块 -->
+        <div class="control">
+            <div class="btn-wrapper like-btn"></div>
+            <div class="btn-wrapper prev-btn"></div>
+            <div class="btn-wrapper play-btn"></div>
+            <div class="btn-wrapper next-btn"></div>
+            <div class="btn-wrapper list-btn"></div>
+        </div>
+    </div>
+
+    <script src="../js/zepto.min.js"></script>
+    <script src="../js/gaussBlur.js"></script>
+    <script src="../js/controlManage.js"></script>
+    <script src="../js/audioControl.js"></script>
+    <script src="../js/pro.js"></script>
+    <script src="../js/render.js"></script>
+    <script src="../js/index.js"></script>
+    
+</body>
+
+</html>
