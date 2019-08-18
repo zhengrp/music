@@ -9,8 +9,8 @@
     function renderAllTime(time){
         curDuration = time
         // 253--02:13,
-        time = fromatTime(time)
-        $scope.find('.all-time').html(time);
+        var alltime = fromatTime(time)
+        $scope.find('.all-time').html(alltime);
     }
     // 时间格式转换 253--02:13,
     function fromatTime(time){
@@ -26,20 +26,28 @@
         return m + ':' + s
     }
     // 更新时间
-    function start(time){
+    function start(per){
         // 清除上次
         cancelAnimationFrame(frame)
         // 获取start时间戳
         starTime = new Date().getTime()
-        console.log(111)        
+        // console.log(111) 
+        lastPer = per == undefined ? lastPer : per      
         //每刷新频率获取实时时间及占比
         function frame(){
             var curTime = new Date().getTime()
             var percent = lastPer + (curTime - starTime) / (curDuration*1000)
             // 调用更新渲染函数
-            update(percent)
-        // console.log(222)
+            if (percent < 1) {
+                update(percent)
+                 // console.log(222)
             frameId = requestAnimationFrame(frame)
+            }else{
+                cancelAnimationFrame(frameId);
+                $scope.find(".next-btn").trigger("click");
+            }
+            
+
         }
         frame()
 
@@ -50,13 +58,18 @@
         var stopTime = new Date().getTime()
         // 记录上次并更新占比
         lastPer = lastPer + (stopTime - starTime) / (curDuration*1000)
-        // console.log(lastPer)   
+        // console.log(lastPer)  
+         
     }
-    // 更新渲染播放进度时间
+    // 更新渲染播放进度he时间
     function update(per){
-        var time = per *curDuration
+        var time = per * curDuration
         time = fromatTime(time)
         $scope.find('.cur-time').html(time)
+        var percentage = (per - 1) * 100 + "%";
+        $scope.find(".pro-top").css({
+            transform : "translateX("+percentage+")"
+        })
     }
     
     

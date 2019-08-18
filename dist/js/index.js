@@ -7,10 +7,10 @@ var controlManager //控制器对象
 var audio =  root.audioControl
 var timer 
 // var audio = new root.audioManager();
-console.log(root)
+// console.log(root)
 // bindEvent()
+// 播放/暂停 上一曲 下一曲
 function bindEvent(){
-    console.log(1)
     // 添加自定义事件
     $scope.on('play:change',function(e,index){
         // console.log(songlist[index].audio)
@@ -41,7 +41,12 @@ function bindEvent(){
         var index = controlManager.prev() 
         // console.log(index)  
         //执行渲染                  
-        $scope.trigger('play:change',index)        
+        $scope.trigger('play:change',index) 
+        if (audio.status == 'play') {
+            root.pro.start(0)
+        } 
+        root.pro.update(0)
+             
     })
     // 下一曲
     $scope.on('click','.next-btn',function(){
@@ -54,6 +59,11 @@ function bindEvent(){
         var index = controlManager.next()    
         // console.log(index)  
         $scope.trigger('play:change',index)
+        if (audio.status == 'play') {
+            root.pro.start(0)
+        } 
+        root.pro.update(0)
+    
         
     })
     // 播放&暂停
@@ -62,7 +72,7 @@ function bindEvent(){
             audio.play()
             root.pro.start()
             var deg = $('.img-wrapper').attr('data-deg')
-            console.log(deg); 
+            // console.log(deg); 
             rotated(deg)
         }else{
             audio.pause()
@@ -79,7 +89,35 @@ function bindEvent(){
    
 }
 function touchEvent(){
-
+    var $slider = $scope.find('.slider-pointer')
+    var offset = $('.pro-bottom').offset()
+    var left = offset.left
+    var width = offset.width
+    $slider.on('touchstart',function(){
+        root.pro.stop()
+    }).on('touchmove',function(e){
+        // console.log(e);
+        var x = e.changedTouches[0].clientX
+        var per = (x - left) / width;
+        // console.log(per);
+        if(per >0 && per <= 1){
+            // 更新进度
+            root.pro.update(per)
+            // console.log(per);       
+        }
+    }).on('touchend',function(e){
+        var x = e.changedTouches[0].clientX
+        var per = (x - left) / width;
+        if(per >0 && per <= 1){
+            // 精度时间
+            var curTime = per * songlist[controlManager.index].duration
+            // 跳到当前位置播放
+            audio.playTo(curTime);
+            root.pro.start(per)
+            $scope.find('.play-btn').addClass('playing')
+            audio.status = 'play'
+        }
+    })
 }
 
 // CD旋转
@@ -109,6 +147,7 @@ function getData(url){
             // 渲染数据
             root.render(data[0])
             bindEvent()
+            touchEvent()
             // 构造对象保存到控制器对象
             controlManager = new root.ControlManager(data.length)
             // 触发自定义事件
