@@ -80,7 +80,7 @@ gulp.task('watch', function () {
 // 开启本地服务器
 gulp.task('server', function () {
     connect.server({
-        // root:'dist/html',
+        // root:'./dist/html',
         port: '8090',//设置端口
         livereload: true //浏览器自动刷新
     });

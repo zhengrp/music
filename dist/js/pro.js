@@ -61,7 +61,7 @@
         // console.log(lastPer)  
          
     }
-    // 更新渲染播放进度和时间
+    // 更新渲染播放进度he时间
     function update(per){
         var time = per * curDuration
         time = fromatTime(time)
